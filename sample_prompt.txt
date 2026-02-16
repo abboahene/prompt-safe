@@ -1,0 +1,8 @@
+Hi, I need help with my server configuration.
+
+IP: 192.168.0.1
+Email: admin@startup.io
+AWS Key: AKIAiosFODNN7EXAMPLE
+Stripe Key: sk_live_51McExampleKey123456
+
+Please debug this.
