@@ -17,7 +17,6 @@
       "128": "images/logo-128.png"
     }
   },
-  "permissions": ["activeTab", "scripting"],
   "background": {
     "service_worker": "background.js"
   },
