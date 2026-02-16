@@ -63,12 +63,14 @@ function createShieldUI(targetElement) {
     const shield = document.createElement('div');
     shield.className = 'ps-extension-shield';
     
-    // Create inner logo
+    // Create inner logo (Now using SVG Shield)
     const logo = document.createElement('div');
     logo.className = 'ps-extension-logo';
-    // Use logo.png instead of SVG
-    const logoUrl = chrome.runtime.getURL('logo.png');
-    logo.innerHTML = `<img src="${logoUrl}" width="16" height="16" style="display:block;">`;
+    logo.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+    `;
     
     // Create status text (checkmark or count)
     const statusText = document.createElement('span');
@@ -259,21 +261,21 @@ function updatePosition() {
 }
 
 const disgustMessages = [
-    "Oh come on!!",
-    "Are you serious?",
-    "Not again...",
-    "Seriously?",
-    "Uh oh!",
-    "Stop that!",
-    "Nooooo!",
-    "Really?",
-    "Why would you do that?",
-    "Come on, be better!",
-    "My eyes!!",
-    "Privacy is a thing, you know?",
-    "Let's keep some secrets, shall we?",
-    "Yikes!",
-    "Bruh..."
+    "Oh come on!! 😫",
+    "Are you serious? 🤨",
+    "Not again... 🤦‍♂️",
+    "Seriously? 🙄",
+    "Uh oh! 😰",
+    "Stop that! 🛑",
+    "Nooooo! 😱",
+    "Really? 😒",
+    "Why would you do that? 🧐",
+    "Come on, be better! 💪",
+    "My eyes!! 🙈",
+    "Privacy is a thing, you know? 🔐",
+    "Let's keep some secrets, shall we? 🤫",
+    "Yikes! 😬",
+    "Bruh... 💀"
 ];
 
 function updateShield(target, findings) {
