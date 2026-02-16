@@ -1,4 +1,4 @@
-# Prompt Safe - Chrome Extension
+# PromptShield - Chrome Extension
 
 A "Grammarly for Security" that runs locally in your browser. It scans your prompts on ChatGPT, Claude, and other AI sites *before* you hit send, warning you if you are about to leak PII or API keys.
 

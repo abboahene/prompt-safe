@@ -1,2 +1,2 @@
 // Background service worker
-console.log('Prompt Safe extension loaded.');
+console.log('PromptShield extension loaded.');

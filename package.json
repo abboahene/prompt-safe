@@ -1,7 +1,7 @@
 {
-  "name": "prompt-safe-dev",
+  "name": "prompt-shield",
   "version": "1.0.0",
-  "description": "Prompt Safe Extension",
+  "description": "PromptShield Extension",
   "scripts": {},
   "dependencies": {
     "chokidar": "^3.5.3",
