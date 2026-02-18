@@ -60,6 +60,22 @@ function createShieldUI(targetElement) {
     container.style.left = 'auto';
     container.style.top = 'auto';
 
+    const disgustBubble = document.createElement('div');
+    disgustBubble.className = 'ps-disgust-bubble';
+
+    const disgustText = document.createElement('span');
+    disgustText.className = 'ps-disgust-text';
+    disgustBubble.appendChild(disgustText);
+
+    const closeBubble = document.createElement('button');
+    closeBubble.className = 'ps-close-bubble';
+    closeBubble.innerHTML = '&times;';
+    closeBubble.onclick = (e) => {
+        e.stopPropagation();
+        disgustBubble.style.display = 'none';
+    };
+    disgustBubble.appendChild(closeBubble);
+
     const shield = document.createElement('div');
     shield.className = 'ps-extension-shield';
     
@@ -87,12 +103,16 @@ function createShieldUI(targetElement) {
     popup.style.bottom = '35px'; // Open above the shield
     popup.style.left = 'auto';
     
+    container.appendChild(disgustBubble);
     container.appendChild(popup);
     container.appendChild(shield);
 
     shield.addEventListener('click', (e) => {
         e.stopPropagation();
-        popup.classList.toggle('ps-visible');
+        const isVisible = popup.classList.toggle('ps-visible');
+        if (isVisible) {
+            disgustBubble.style.display = 'none';
+        }
     });
 
     document.addEventListener('click', () => {
@@ -110,6 +130,9 @@ function createShieldUI(targetElement) {
         shieldIcon: shield, 
         statusElement: statusText, 
         popup: popup,
+        disgustBubble: disgustBubble,
+        disgustText: disgustText,
+        currentDisgust: null,
         listeners: [],
         pendingUpdate: null,
         latestFindings: []
@@ -285,22 +308,34 @@ function updateShield(target, findings) {
     
     activeShield.latestFindings = findings;
 
-    const { shieldIcon, statusElement, popup } = activeShield;
+    const { shieldIcon, statusElement, popup, disgustBubble, disgustText } = activeShield;
     
     if (findings.length === 0) {
         shieldIcon.className = 'ps-extension-shield'; // Green pill
         statusElement.innerHTML = '✓';
         popup.classList.remove('ps-visible');
+        disgustBubble.style.display = 'none';
+        activeShield.currentDisgust = null;
         popup.innerHTML = '<div class="ps-extension-header" style="justify-content:center; color:#2ecc71;">No issues found</div>';
     } else {
         const count = findings.length;
         shieldIcon.className = 'ps-extension-shield ps-danger'; // Red pill
         statusElement.innerHTML = count > 9 ? '9+' : count;
 
-        const disgust = disgustMessages[Math.floor(Math.random() * disgustMessages.length)];
+        if (!activeShield.currentDisgust) {
+            activeShield.currentDisgust = disgustMessages[Math.floor(Math.random() * disgustMessages.length)];
+        }
+
+        // Show disgust bubble ONLY if popup is NOT visible
+        if (!popup.classList.contains('ps-visible')) {
+            disgustText.textContent = activeShield.currentDisgust;
+            disgustBubble.style.display = 'block';
+        } else {
+            disgustBubble.style.display = 'none';
+        }
 
         let html = `
-            <div class="ps-disgust-banner">${disgust}</div>
+            <div class="ps-disgust-banner">${activeShield.currentDisgust}</div>
             <div class="ps-extension-header">
                 <span>Security Alert</span>
                 <div style="display:flex; align-items:center;">
